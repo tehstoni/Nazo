@@ -10,13 +10,17 @@
 
 
 std::string generateRandomKey(int length) {
+	const std::string CHARACTERS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%^&*()-_=+[]{}|;:,./";
+
+	std::random_device random_device;
+	std::mt19937 generator(random_device());
+	std::uniform_int_distribution<int> distribution(0, CHARACTERS.size() - 1);
+
 	std::string key;
-	std::random_device rd;
-	std::mt19937 gen(rd());
-	std::uniform_int_distribution<> dis(0, 255);
 	for (int i = 0; i < length; i++) {
-		key += dis(gen);
+		key += CHARACTERS[distribution(generator)];
 	}
+	
 	return key;
 }
 
@@ -27,6 +31,8 @@ std::string XOR(std::string input, std::string xorkey) {
 	}
 	return output;
 }
+
+
 
 
 int main (int argc, char* argv[]) {
@@ -59,7 +65,14 @@ int main (int argc, char* argv[]) {
 		return 0;
 	}
 
+	std::string argt = argv[1];
+	if (arg1 == "-t") {		
+		int t_value = std::stoi(argv[2]);
+		std::string testKey = generateRandomKey(t_value);
+		std::cout << testKey;
 
+		return 0;
+	}
 
 	return 0;
 }
